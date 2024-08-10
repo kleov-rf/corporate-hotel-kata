@@ -23,6 +23,6 @@ public class InMemoryHotelRepository : IHotelRepository
 
     public Hotel FindHotelBy(HotelId hotelId)
     {
-        throw new NotImplementedException();
+        return _hotels.Find(hotel => hotel.IsIdentifiedBy(hotelId))!;
     }
 }
