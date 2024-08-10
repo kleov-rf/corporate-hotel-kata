@@ -4,15 +4,16 @@ namespace CorporateHotel.HotelManagement.Application;
 
 public class HotelService : IHotelService
 {
-    private readonly IHotelRepository _hotelRepositoryObject;
+    private readonly IHotelRepository _hotelRepository;
 
-    public HotelService(IHotelRepository hotelRepositoryObject)
+    public HotelService(IHotelRepository hotelRepository)
     {
-        _hotelRepositoryObject = hotelRepositoryObject;
+        _hotelRepository = hotelRepository;
     }
 
     public void AddHotel(HotelId hotelId, string newHotelName)
     {
-        throw new NotImplementedException();
+        var newHotel = new Hotel(hotelId, newHotelName);
+        _hotelRepository.AddHotel(newHotel);
     }
 }
