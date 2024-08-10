@@ -2,6 +2,7 @@
 using CorporateHotel.HotelManagement.Domain;
 using CorporateHotel.HotelManagement.Infrastructure;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -37,6 +38,6 @@ public class HotelControllerShould
 
         var actionResult = hotelController.AddHotel(newHotelId, newHotelName);
         
-        Assert.IsType<OkObjectResult>(actionResult);
+        Assert.IsType<ActionResult<Hotel>>(actionResult);
     }
 }

@@ -13,7 +13,7 @@ public class HotelController
         _hotelService = hotelService;
     }
 
-    public ActionResult AddHotel(string hotelId, string hotelName)
+    public ActionResult<Hotel> AddHotel(string hotelId, string hotelName)
     {
         _hotelService.AddHotel(new HotelId(hotelId), hotelName);
         return new OkObjectResult(null);
