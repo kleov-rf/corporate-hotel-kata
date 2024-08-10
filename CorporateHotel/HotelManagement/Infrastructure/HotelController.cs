@@ -16,7 +16,7 @@ public class HotelController
     public ActionResult AddHotel(string hotelId, string hotelName)
     {
         _hotelService.AddHotel(new HotelId(hotelId), hotelName);
-        return null!;
+        return new OkObjectResult(null);
     }
 
     public Hotel FindHotelById(string hotelId)
