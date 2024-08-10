@@ -16,7 +16,7 @@ public class InMemoryHotelRepositoryShould
         var newHotelName = "New Hotel";
         var hotelId = new HotelId(newHotelId);
         Hotel newHotel = new Hotel(hotelId, newHotelName);
-        IEnumerable<Hotel> hotels = new List<Hotel>();
+        var hotels = new List<Hotel>();
 
         var inMemoryHotelRepository = new InMemoryHotelRepository(hotels);
         

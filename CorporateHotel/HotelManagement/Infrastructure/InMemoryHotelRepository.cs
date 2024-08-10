@@ -4,16 +4,20 @@ namespace CorporateHotel.HotelManagement.Infrastructure;
 
 public class InMemoryHotelRepository : IHotelRepository
 {
-    public InMemoryHotelRepository(IEnumerable<Hotel> hotels)
+    private readonly List<Hotel> _hotels;
+
+    public InMemoryHotelRepository(List<Hotel> hotels)
     {
+        _hotels = hotels;
     }
 
     public InMemoryHotelRepository()
     {
+        _hotels = new List<Hotel>();
     }
 
     public void AddHotel(Hotel newHotel)
     {
-        throw new NotImplementedException();
+        _hotels.Add(newHotel);
     }
 }
