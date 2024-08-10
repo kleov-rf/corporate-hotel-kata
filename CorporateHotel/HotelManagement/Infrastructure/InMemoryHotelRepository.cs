@@ -20,4 +20,9 @@ public class InMemoryHotelRepository : IHotelRepository
     {
         _hotels.Add(newHotel);
     }
+
+    public Hotel FindHotelBy(HotelId hotelId)
+    {
+        throw new NotImplementedException();
+    }
 }
