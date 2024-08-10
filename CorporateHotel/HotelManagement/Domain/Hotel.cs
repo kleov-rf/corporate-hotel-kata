@@ -28,4 +28,9 @@ public class Hotel
     {
         return HashCode.Combine(_hotelId, _hotelName);
     }
+
+    public bool IsIdentifiedBy(HotelId hotelId)
+    {
+        return _hotelId.Equals(hotelId);
+    }
 }
