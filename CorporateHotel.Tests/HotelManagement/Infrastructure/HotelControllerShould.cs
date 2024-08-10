@@ -40,4 +40,24 @@ public class HotelControllerShould
         
         Assert.IsType<ActionResult<Hotel>>(actionResult);
     }
+    
+    [Fact]
+    public void ReturnInternalServerErrorStatusWhenServiceThrowsException()
+    {
+        //Arrange
+        string newHotelName = "New Hotel";
+        var newHotelId = "e4b7255d-2d58-4ebe-bda7-a4759fe2c63b";
+        var hotelService = new Mock<IHotelService>();
+        var hotelController = new HotelController(hotelService.Object);
+        hotelService.Setup(service => 
+            service.AddHotel(It.IsAny<HotelId>(), It.IsAny<string>())).Throws<Exception>();
+        
+        //Act
+        var actionResult = hotelController.AddHotel(newHotelId, newHotelName);
+        
+        //Assert
+        Assert.IsType<ActionResult<Hotel>>(actionResult);
+        var statusCodeResult = Assert.IsType<ObjectResult>(actionResult.Result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, statusCodeResult.StatusCode);
+    }
 }
