@@ -21,7 +21,7 @@ public class HotelServiceShould
         var addHotel = hotelController.AddHotel(newHotelId, newHotelName);
         
         // Assert
-        Assert.IsType<OkObjectResult>(addHotel);
+        Assert.IsType<OkObjectResult>(addHotel.Result);
 
         var foundHotelById = hotelController.FindHotelById(newHotelId);
 
