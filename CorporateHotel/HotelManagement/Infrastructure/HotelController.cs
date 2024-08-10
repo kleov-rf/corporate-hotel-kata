@@ -31,6 +31,6 @@ public class HotelController
 
     public Hotel FindHotelById(string hotelId)
     {
-        throw new NotImplementedException();
+        return _hotelService.FindHotelBy(new HotelId(hotelId));
     }
 }
