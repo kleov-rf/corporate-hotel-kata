@@ -26,4 +26,18 @@ public class InMemoryHotelRepositoryShould
         //Assert
         Assert.Contains(newHotel, hotels);
     }
+
+    [Fact]
+    public void FindHotel()
+    {
+        var currentHotelId = "39379273-be6a-4d3f-90c9-7c77de3c5de1";
+        var hotelId = new HotelId(currentHotelId);
+        var currentHotelName = "Current hotel";
+        var currentHotel = new Hotel(hotelId, currentHotelName);
+        var inMemoryHotelRepository = new InMemoryHotelRepository(new List<Hotel>(){currentHotel});
+        
+        var foundHotel = inMemoryHotelRepository.FindHotelBy(hotelId);
+        
+        Assert.Equal(currentHotel, foundHotel);
+    }
 }
