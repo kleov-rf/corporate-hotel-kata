@@ -15,8 +15,18 @@ public class HotelController
 
     public ActionResult<Hotel> AddHotel(string hotelId, string hotelName)
     {
-        _hotelService.AddHotel(new HotelId(hotelId), hotelName);
-        return new OkObjectResult(null);
+        try
+        {
+            _hotelService.AddHotel(new HotelId(hotelId), hotelName);
+            return new OkObjectResult(null);
+        }
+        catch (Exception e)
+        {
+            return new ObjectResult(e)
+            {
+                StatusCode = 500
+            };
+        }
     }
 
     public Hotel FindHotelById(string hotelId)
