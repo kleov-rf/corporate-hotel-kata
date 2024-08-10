@@ -60,4 +60,17 @@ public class HotelControllerShould
         var statusCodeResult = Assert.IsType<ObjectResult>(actionResult.Result);
         Assert.Equal(StatusCodes.Status500InternalServerError, statusCodeResult.StatusCode);
     }
+
+    [Fact]
+    public void CallHotelServiceWhenFindingHotel()
+    {
+        var hotelService = new Mock<IHotelService>();
+        var newHotelId = "3220567b-5f11-4f8f-b7ae-c7d730ae0b4e";
+        var hotelId = new HotelId(newHotelId);
+        var hotelController = new HotelController(hotelService.Object);
+
+        hotelController.FindHotelById(newHotelId);
+        
+        hotelService.Verify(service => service.FindHotelBy(hotelId), Times.Once);
+    }
 }

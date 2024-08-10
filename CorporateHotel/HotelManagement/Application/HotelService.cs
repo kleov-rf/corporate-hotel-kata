@@ -16,4 +16,9 @@ public class HotelService : IHotelService
         var newHotel = new Hotel(hotelId, newHotelName);
         _hotelRepository.AddHotel(newHotel);
     }
+
+    public Hotel FindHotelBy(HotelId hotelId)
+    {
+        throw new NotImplementedException();
+    }
 }
