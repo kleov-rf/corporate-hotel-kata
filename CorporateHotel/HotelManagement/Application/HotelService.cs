@@ -19,6 +19,7 @@ public class HotelService : IHotelService
 
     public Hotel FindHotelBy(HotelId hotelId)
     {
-        throw new NotImplementedException();
+        _hotelRepository.FindHotelBy(hotelId);
+        return null!;
     }
 }

@@ -34,6 +34,6 @@ public class HotelServiceShould
 
         hotelService.FindHotelBy(hotelId);
         
-        hotelRepository.Verify(repository => repository.FindHotelBy(hotelId));
+        hotelRepository.Verify(repository => repository.FindHotelBy(hotelId), Times.Once);
     }
 }
