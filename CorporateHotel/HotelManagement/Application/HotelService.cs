@@ -19,7 +19,6 @@ public class HotelService : IHotelService
 
     public Hotel FindHotelBy(HotelId hotelId)
     {
-        _hotelRepository.FindHotelBy(hotelId);
-        return null!;
+        return _hotelRepository.FindHotelBy(hotelId);
     }
 }
