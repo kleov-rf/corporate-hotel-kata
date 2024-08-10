@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorporateHotel", "CorporateHotel\CorporateHotel.csproj", "{1F446E67-E15C-4D41-B881-694E6A95300D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorporateHotel.Tests", "CorporateHotel.Tests\CorporateHotel.Tests.csproj", "{C1734AF0-1AC1-4926-845C-8181D8A69467}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F446E67-E15C-4D41-B881-694E6A95300D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F446E67-E15C-4D41-B881-694E6A95300D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F446E67-E15C-4D41-B881-694E6A95300D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F446E67-E15C-4D41-B881-694E6A95300D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1734AF0-1AC1-4926-845C-8181D8A69467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1734AF0-1AC1-4926-845C-8181D8A69467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1734AF0-1AC1-4926-845C-8181D8A69467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1734AF0-1AC1-4926-845C-8181D8A69467}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
