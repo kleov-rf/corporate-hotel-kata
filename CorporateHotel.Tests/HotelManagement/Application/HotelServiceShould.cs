@@ -1,5 +1,7 @@
 ﻿using CorporateHotel.HotelManagement.Application;
 using CorporateHotel.HotelManagement.Domain;
+using CorporateHotel.HotelManagement.Domain.Exception;
+using CorporateHotel.Tests.Helpers;
 using JetBrains.Annotations;
 using Moq;
 
@@ -53,5 +55,18 @@ public class HotelServiceShould
         var returnHotel = _hotelService.FindHotelBy(hotelId);
         
         Assert.Equal(foundHotel, returnHotel);
+    }
+
+    [Fact]
+    public void ThrowExceptionWhenAddingExistingHotel()
+    {
+        var existingHotelId = HotelIdHelper.GenerateNewId();
+        var existingHotelName = "existing hotel";
+        
+        _hotelRepository.Verify(repository => repository.FindHotelBy(new HotelId(existingHotelId)), Times.Once);
+
+        Assert.Throws<AlreadyExistingHotelException>(
+            () => _hotelService.AddHotel(new HotelId(existingHotelId), existingHotelName)
+        );
     }
 }
