@@ -48,5 +48,6 @@ public class HotelServiceShould
         
         //Assert
         Assert.IsType<ConflictResult>(addHotel.Result);
+        Assert.Single(currentHotels);
     }
 }
