@@ -1,4 +1,5 @@
 ﻿using CorporateHotel.HotelManagement.Domain;
+using CorporateHotel.HotelManagement.Domain.Exception;
 
 namespace CorporateHotel.HotelManagement.Application;
 
@@ -14,6 +15,10 @@ public class HotelService : IHotelService
     public void AddHotel(HotelId hotelId, string newHotelName)
     {
         var newHotel = new Hotel(hotelId, newHotelName);
+        var hasFoundExistingHotelId = _hotelRepository.FindHotelBy(hotelId) is not null;
+
+        if (hasFoundExistingHotelId) throw new AlreadyExistingHotelException();
+
         _hotelRepository.AddHotel(newHotel);
     }
 
