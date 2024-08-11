@@ -1,5 +1,6 @@
 ﻿using CorporateHotel.HotelManagement.Application;
 using CorporateHotel.HotelManagement.Domain;
+using CorporateHotel.HotelManagement.Domain.Exception;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CorporateHotel.HotelManagement.Infrastructure;
@@ -19,6 +20,10 @@ public class HotelController
         {
             _hotelService.AddHotel(new HotelId(hotelId), hotelName);
             return new OkObjectResult(null);
+        }
+        catch (AlreadyExistingHotelException e)
+        {
+            return new ConflictResult();
         }
         catch (Exception e)
         {

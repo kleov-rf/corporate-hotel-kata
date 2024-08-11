@@ -1,10 +1,11 @@
 ﻿using CorporateHotel.HotelManagement.Application;
 using CorporateHotel.HotelManagement.Domain;
+using CorporateHotel.HotelManagement.Domain.Exception;
 using CorporateHotel.HotelManagement.Infrastructure;
+using CorporateHotel.Tests.Helpers;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
 
 namespace CorporateHotel.Tests.HotelManagement.Infrastructure;
@@ -72,5 +73,19 @@ public class HotelControllerShould
         _hotelController.FindHotelById(newHotelId);
         
         _hotelService.Verify(service => service.FindHotelBy(hotelId), Times.Once);
+    }
+
+    [Fact]
+    public void ReturnConflictStatusWhenAddingExistingHotel()
+    {
+        var existingHotelId = HotelIdHelper.GenerateNewId();
+        const string existingHotelName = "existing hotel";
+        _hotelService.Setup(service => service.AddHotel(new HotelId(existingHotelId), existingHotelName)).Throws<AlreadyExistingHotelException>();
+
+        var actionResult = _hotelController.AddHotel(existingHotelId, existingHotelName);
+        
+        Assert.IsType<ActionResult<Hotel>>(actionResult);
+        var statusCodeResult = Assert.IsType<ConflictResult>(actionResult.Result);
+        Assert.Equal(StatusCodes.Status409Conflict, statusCodeResult.StatusCode);
     }
 }
