@@ -28,4 +28,25 @@ public class HotelServiceShould
         Assert.IsType<OkObjectResult>(addHotel.Result);
         Assert.Equal(newHotel, foundHotelById);
     }
+
+    [Fact]
+    public void NotAddExistingHotelTwice()
+    {
+        //Arrange
+        const string newHotelId = "db8afe93-29c5-4711-b5ef-d2dcda53f60f";
+        const string newHotelName = "Hotel Name";
+        var hotelId = new HotelId(newHotelId);
+        var currentHotel = new Hotel(hotelId, newHotelName);
+        var currentHotels = new List<Hotel> { currentHotel };
+
+        var inMemoryHotelRepository = new InMemoryHotelRepository(currentHotels);
+        var hotelService = new HotelService(inMemoryHotelRepository);
+        var hotelController = new HotelController(hotelService);
+        
+        //Act
+        var addHotel = hotelController.AddHotel(newHotelId, newHotelName);
+        
+        //Assert
+        Assert.IsType<ConflictResult>(addHotel.Result);
+    }
 }
