@@ -12,10 +12,9 @@ public class InMemoryHotelRepositoryShould
     public void AddNewHotel()
     {
         //Arrange
-        var newHotelId = "1a30df1f-b92d-4d7f-a875-ea295bd00138";
-        var newHotelName = "New Hotel";
-        var hotelId = new HotelId(newHotelId);
-        Hotel newHotel = new Hotel(hotelId, newHotelName);
+        const string newHotelId = "1a30df1f-b92d-4d7f-a875-ea295bd00138";
+        const string newHotelName = "New Hotel";
+        var newHotel = GivenAHotelWith(newHotelId, newHotelName);
         var hotels = new List<Hotel>();
 
         var inMemoryHotelRepository = new InMemoryHotelRepository(hotels);
@@ -34,10 +33,17 @@ public class InMemoryHotelRepositoryShould
         var hotelId = new HotelId(currentHotelId);
         var currentHotelName = "Current hotel";
         var currentHotel = new Hotel(hotelId, currentHotelName);
-        var inMemoryHotelRepository = new InMemoryHotelRepository(new List<Hotel>(){currentHotel});
+        var inMemoryHotelRepository = new InMemoryHotelRepository(new List<Hotel> {currentHotel});
         
         var foundHotel = inMemoryHotelRepository.FindHotelBy(hotelId);
         
         Assert.Equal(currentHotel, foundHotel);
+    }
+    
+    private static Hotel GivenAHotelWith(string newHotelId, string newHotelName)
+    {
+        var hotelId = new HotelId(newHotelId);
+        var newHotel = new Hotel(hotelId, newHotelName);
+        return newHotel;
     }
 }

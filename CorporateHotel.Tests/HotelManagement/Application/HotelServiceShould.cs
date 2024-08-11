@@ -8,47 +8,49 @@ namespace CorporateHotel.Tests.HotelManagement.Application;
 [TestSubject(typeof(HotelService))]
 public class HotelServiceShould
 {
+    private readonly Mock<IHotelRepository> _hotelRepository;
+    private readonly HotelService _hotelService;
+
+    public HotelServiceShould()
+    {
+        _hotelRepository = new Mock<IHotelRepository>();
+        _hotelService = new HotelService(_hotelRepository.Object);
+    }
 
     [Fact]
     public void CallHotelRepositoryWhenAddingNewHotel()
     {
-        var hotelRepository = new Mock<IHotelRepository>();
-        var hotelService = new HotelService(hotelRepository.Object);
-
-        var newHotelName = "New Hotel";
-        var newHotelId = "3598ca62-4516-4a75-9eb3-64a6f1c59381";
+        const string newHotelName = "New Hotel";
+        const string newHotelId = "3598ca62-4516-4a75-9eb3-64a6f1c59381";
         var hotelId = new HotelId(newHotelId);
         var newHotel = new Hotel(hotelId, newHotelName);
         
-        hotelService.AddHotel(hotelId, newHotelName);
-        hotelRepository.Verify(repository => repository.AddHotel(newHotel), Times.Once);
+        _hotelService.AddHotel(hotelId, newHotelName);
+        
+        _hotelRepository.Verify(repository => repository.AddHotel(newHotel), Times.Once);
     }
 
     [Fact]
     public void CallHotelRepositoryWhenFindingHotelById()
     {
-        var hotelRepository = new Mock<IHotelRepository>();
-        var hotelService = new HotelService(hotelRepository.Object);
-        var newHotelId = "3598ca62-4516-4a75-9eb3-64a6f1c59381";
+        const string newHotelId = "3598ca62-4516-4a75-9eb3-64a6f1c59381";
         var hotelId = new HotelId(newHotelId);
 
-        hotelService.FindHotelBy(hotelId);
+        _hotelService.FindHotelBy(hotelId);
         
-        hotelRepository.Verify(repository => repository.FindHotelBy(hotelId), Times.Once);
+        _hotelRepository.Verify(repository => repository.FindHotelBy(hotelId), Times.Once);
     }
 
     [Fact]
     public void ReturnFoundHotelFromRepository()
     {
-        var hotelRepository = new Mock<IHotelRepository>();
-        var hotelService = new HotelService(hotelRepository.Object);
-        var foundHotelName = "Found Hotel";
-        var foundHotelId = "600cfb4f-6337-41fa-8118-3069ce010305";
+        const string foundHotelName = "Found Hotel";
+        const string foundHotelId = "600cfb4f-6337-41fa-8118-3069ce010305";
         var hotelId = new HotelId(foundHotelId);
         var foundHotel = new Hotel(hotelId, foundHotelName);
-        hotelRepository.Setup(repository => repository.FindHotelBy(hotelId)).Returns(foundHotel);
+        _hotelRepository.Setup(repository => repository.FindHotelBy(hotelId)).Returns(foundHotel);
 
-        var returnHotel = hotelService.FindHotelBy(hotelId);
+        var returnHotel = _hotelService.FindHotelBy(hotelId);
         
         Assert.Equal(foundHotel, returnHotel);
     }

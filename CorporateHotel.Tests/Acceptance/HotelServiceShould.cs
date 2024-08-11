@@ -12,21 +12,20 @@ public class HotelServiceShould
     {
         // Arrange
         const string newHotelId = "0a3d02e8-fba3-4dbb-ba36-3e46cea570f7";
-        string newHotelName = "Name";
+        const string newHotelName = "Name";
+        var hotelId = new HotelId(newHotelId);
+        var newHotel = new Hotel(hotelId, newHotelName);
+        
         var inMemoryHotelRepository = new InMemoryHotelRepository();
         var hotelService = new HotelService(inMemoryHotelRepository);
         var hotelController = new HotelController(hotelService);
         
         // Act
         var addHotel = hotelController.AddHotel(newHotelId, newHotelName);
+        var foundHotelById = hotelController.FindHotelById(newHotelId);
         
         // Assert
         Assert.IsType<OkObjectResult>(addHotel.Result);
-
-        var foundHotelById = hotelController.FindHotelById(newHotelId);
-
-        var hotelId = new HotelId(newHotelId);
-        var newHotel = new Hotel(hotelId, newHotelName);
         Assert.Equal(newHotel, foundHotelById);
     }
 }
