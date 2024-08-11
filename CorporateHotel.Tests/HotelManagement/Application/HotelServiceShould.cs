@@ -61,12 +61,16 @@ public class HotelServiceShould
     public void ThrowExceptionWhenAddingExistingHotel()
     {
         var existingHotelId = HotelIdHelper.GenerateNewId();
-        var existingHotelName = "existing hotel";
+        const string existingHotelName = "existing hotel";
+        var hotelId = new HotelId(existingHotelId);
         
-        _hotelRepository.Verify(repository => repository.FindHotelBy(new HotelId(existingHotelId)), Times.Once);
-
+        _hotelRepository.Setup(repository => repository.FindHotelBy(hotelId))
+            .Returns(new Hotel(hotelId, existingHotelName));
+        
         Assert.Throws<AlreadyExistingHotelException>(
-            () => _hotelService.AddHotel(new HotelId(existingHotelId), existingHotelName)
+            () => _hotelService.AddHotel(hotelId, existingHotelName)
         );
+        
+        _hotelRepository.Verify(repository => repository.FindHotelBy(hotelId), Times.Once);
     }
 }
