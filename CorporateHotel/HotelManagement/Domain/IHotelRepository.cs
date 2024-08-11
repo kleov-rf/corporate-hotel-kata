@@ -2,6 +2,6 @@
 
 public interface IHotelRepository
 {
-    void AddHotel(Hotel newHotel);
-    Hotel FindHotelBy(HotelId hotelId);
+    Task AddHotel(Hotel newHotel);
+    Task<Hotel?> FindHotelBy(HotelId hotelId);
 }

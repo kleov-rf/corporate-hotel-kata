@@ -9,7 +9,7 @@ namespace CorporateHotel.Tests.Acceptance;
 public class HotelServiceShould
 {
     [Fact]
-    public void AddNoExistingHotel()
+    public async Task AddNoExistingHotel()
     {
         // Arrange
         var newHotelId = HotelIdHelper.GenerateNewId();
@@ -22,8 +22,8 @@ public class HotelServiceShould
         var hotelController = new HotelController(hotelService);
         
         // Act
-        var addHotel = hotelController.AddHotel(newHotelId, newHotelName);
-        var foundHotelById = hotelController.FindHotelById(newHotelId);
+        var addHotel = await hotelController.AddHotel(newHotelId, newHotelName);
+        var foundHotelById = await hotelController.FindHotelById(newHotelId);
         
         // Assert
         Assert.IsType<OkObjectResult>(addHotel.Result);
@@ -31,7 +31,7 @@ public class HotelServiceShould
     }
 
     [Fact]
-    public void NotAddExistingHotelTwice()
+    public async Task NotAddExistingHotelTwice()
     {
         //Arrange
         var newHotelId = HotelIdHelper.GenerateNewId();
@@ -45,7 +45,7 @@ public class HotelServiceShould
         var hotelController = new HotelController(hotelService);
         
         //Act
-        var addHotel = hotelController.AddHotel(newHotelId, newHotelName);
+        var addHotel = await hotelController.AddHotel(newHotelId, newHotelName);
         
         //Assert
         Assert.IsType<ConflictResult>(addHotel.Result);

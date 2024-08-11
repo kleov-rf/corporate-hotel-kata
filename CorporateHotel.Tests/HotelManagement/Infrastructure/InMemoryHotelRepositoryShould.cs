@@ -28,7 +28,7 @@ public class InMemoryHotelRepositoryShould
     }
 
     [Fact]
-    public void FindHotel()
+    public async void FindHotel()
     {
         var currentHotelId = HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(currentHotelId);
@@ -36,7 +36,7 @@ public class InMemoryHotelRepositoryShould
         var currentHotel = new Hotel(hotelId, currentHotelName);
         var inMemoryHotelRepository = new InMemoryHotelRepository(new List<Hotel> {currentHotel});
         
-        var foundHotel = inMemoryHotelRepository.FindHotelBy(hotelId);
+        var foundHotel = await inMemoryHotelRepository.FindHotelBy(hotelId);
         
         Assert.Equal(currentHotel, foundHotel);
     }

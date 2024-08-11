@@ -16,13 +16,14 @@ public class InMemoryHotelRepository : IHotelRepository
         _hotels = new List<Hotel>();
     }
 
-    public void AddHotel(Hotel newHotel)
+    public Task AddHotel(Hotel newHotel)
     {
         _hotels.Add(newHotel);
+        return Task.CompletedTask;
     }
 
-    public Hotel FindHotelBy(HotelId hotelId)
+    public Task<Hotel?> FindHotelBy(HotelId hotelId)
     {
-        return _hotels.Find(hotel => hotel.IsIdentifiedBy(hotelId))!;
+        return Task.FromResult(_hotels.Find(hotel => hotel.IsIdentifiedBy(hotelId)));
     }
 }

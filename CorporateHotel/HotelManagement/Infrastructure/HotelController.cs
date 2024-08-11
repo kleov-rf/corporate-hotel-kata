@@ -14,11 +14,11 @@ public class HotelController
         _hotelService = hotelService;
     }
 
-    public ActionResult<Hotel> AddHotel(string hotelId, string hotelName)
+    public async Task<ActionResult<Hotel>> AddHotel(string hotelId, string hotelName)
     {
         try
         {
-            _hotelService.AddHotel(new HotelId(hotelId), hotelName);
+            await _hotelService.AddHotel(new HotelId(hotelId), hotelName);
             return new OkObjectResult(null);
         }
         catch (AlreadyExistingHotelException e)
@@ -34,8 +34,8 @@ public class HotelController
         }
     }
 
-    public Hotel FindHotelById(string hotelId)
+    public async Task<Hotel?> FindHotelById(string hotelId)
     {
-        return _hotelService.FindHotelBy(new HotelId(hotelId));
+        return await _hotelService.FindHotelBy(new HotelId(hotelId));
     }
 }

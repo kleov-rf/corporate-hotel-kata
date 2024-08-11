@@ -12,18 +12,18 @@ public class HotelService : IHotelService
         _hotelRepository = hotelRepository;
     }
 
-    public void AddHotel(HotelId hotelId, string newHotelName)
+    public async Task AddHotel(HotelId hotelId, string newHotelName)
     {
         var newHotel = new Hotel(hotelId, newHotelName);
-        var hasFoundExistingHotelId = _hotelRepository.FindHotelBy(hotelId) is not null;
+        var hasFoundExistingHotelId = await _hotelRepository.FindHotelBy(hotelId) is not null;
 
         if (hasFoundExistingHotelId) throw new AlreadyExistingHotelException();
 
-        _hotelRepository.AddHotel(newHotel);
+        await _hotelRepository.AddHotel(newHotel);
     }
 
-    public Hotel FindHotelBy(HotelId hotelId)
+    public async Task<Hotel?> FindHotelBy(HotelId hotelId)
     {
-        return _hotelRepository.FindHotelBy(hotelId);
+        return await _hotelRepository.FindHotelBy(hotelId);
     }
 }

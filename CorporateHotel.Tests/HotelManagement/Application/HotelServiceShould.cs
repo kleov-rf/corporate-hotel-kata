@@ -20,14 +20,14 @@ public class HotelServiceShould
     }
 
     [Fact]
-    public void CallHotelRepositoryWhenAddingNewHotel()
+    public async Task CallHotelRepositoryWhenAddingNewHotel()
     {
         const string newHotelName = "New Hotel";
         var newHotelId = HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(newHotelId);
         var newHotel = new Hotel(hotelId, newHotelName);
         
-        _hotelService.AddHotel(hotelId, newHotelName);
+        await _hotelService.AddHotel(hotelId, newHotelName);
         
         _hotelRepository.Verify(repository => repository.AddHotel(newHotel), Times.Once);
     }
@@ -44,15 +44,15 @@ public class HotelServiceShould
     }
 
     [Fact]
-    public void ReturnFoundHotelFromRepository()
+    public async void ReturnFoundHotelFromRepository()
     {
         const string foundHotelName = "Found Hotel";
         var foundHotelId = HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(foundHotelId);
         var foundHotel = new Hotel(hotelId, foundHotelName);
-        _hotelRepository.Setup(repository => repository.FindHotelBy(hotelId)).Returns(foundHotel);
+        _hotelRepository.Setup(repository => repository.FindHotelBy(hotelId)).ReturnsAsync(foundHotel);
 
-        var returnHotel = _hotelService.FindHotelBy(hotelId);
+        var returnHotel = await _hotelService.FindHotelBy(hotelId);
         
         Assert.Equal(foundHotel, returnHotel);
     }
@@ -65,9 +65,9 @@ public class HotelServiceShould
         var hotelId = new HotelId(existingHotelId);
         
         _hotelRepository.Setup(repository => repository.FindHotelBy(hotelId))
-            .Returns(new Hotel(hotelId, existingHotelName));
+            .ReturnsAsync(new Hotel(hotelId, existingHotelName));
         
-        Assert.Throws<AlreadyExistingHotelException>(
+        Assert.ThrowsAsync<AlreadyExistingHotelException>(
             () => _hotelService.AddHotel(hotelId, existingHotelName)
         );
         

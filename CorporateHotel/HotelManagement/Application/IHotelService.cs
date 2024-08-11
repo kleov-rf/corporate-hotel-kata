@@ -4,6 +4,6 @@ namespace CorporateHotel.HotelManagement.Application;
 
 public interface IHotelService
 {
-    void AddHotel(HotelId hotelId, string newHotelName);
-    Hotel FindHotelBy(HotelId hotelId);
+    Task AddHotel(HotelId hotelId, string newHotelName);
+    Task<Hotel?> FindHotelBy(HotelId hotelId);
 }

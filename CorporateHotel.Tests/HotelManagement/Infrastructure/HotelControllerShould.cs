@@ -35,19 +35,19 @@ public class HotelControllerShould
     }
 
     [Fact]
-    public void ReturnOkWhenAddingNewHotelSuccessful()
+    public async Task ReturnOkWhenAddingNewHotelSuccessful()
     {
         var newHotelId = HotelIdHelper.GenerateNewId();
         const string newHotelName = "New Hotel";
         _hotelService.Setup(service => service.AddHotel(It.IsAny<HotelId>(), It.IsAny<string>())).Verifiable();
 
-        var actionResult = _hotelController.AddHotel(newHotelId, newHotelName);
+        var actionResult = await _hotelController.AddHotel(newHotelId, newHotelName);
         
         Assert.IsType<ActionResult<Hotel>>(actionResult);
     }
     
     [Fact]
-    public void ReturnInternalServerErrorStatusWhenServiceThrowsException()
+    public async Task ReturnInternalServerErrorStatusWhenServiceThrowsException()
     {
         //Arrange
         const string newHotelName = "New Hotel";
@@ -56,7 +56,7 @@ public class HotelControllerShould
             service.AddHotel(It.IsAny<HotelId>(), It.IsAny<string>())).Throws<Exception>();
         
         //Act
-        var actionResult = _hotelController.AddHotel(newHotelId, newHotelName);
+        var actionResult = await _hotelController.AddHotel(newHotelId, newHotelName);
         
         //Assert
         Assert.IsType<ActionResult<Hotel>>(actionResult);
@@ -76,13 +76,13 @@ public class HotelControllerShould
     }
 
     [Fact]
-    public void ReturnConflictStatusWhenAddingExistingHotel()
+    public async Task ReturnConflictStatusWhenAddingExistingHotel()
     {
         var existingHotelId = HotelIdHelper.GenerateNewId();
         const string existingHotelName = "existing hotel";
         _hotelService.Setup(service => service.AddHotel(new HotelId(existingHotelId), existingHotelName)).Throws<AlreadyExistingHotelException>();
 
-        var actionResult = _hotelController.AddHotel(existingHotelId, existingHotelName);
+        var actionResult = await _hotelController.AddHotel(existingHotelId, existingHotelName);
         
         Assert.IsType<ActionResult<Hotel>>(actionResult);
         var statusCodeResult = Assert.IsType<ConflictResult>(actionResult.Result);
