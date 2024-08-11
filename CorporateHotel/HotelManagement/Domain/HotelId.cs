@@ -2,11 +2,11 @@
 
 public class HotelId
 {
-    private readonly string _id;
+    private readonly Guid _id;
 
     public HotelId(string id)
     {
-        _id = id;
+        _id = new Guid(id);
     }
     
     protected bool Equals(HotelId other)
