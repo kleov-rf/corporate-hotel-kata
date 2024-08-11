@@ -1,4 +1,5 @@
 ﻿using CorporateHotel.HotelManagement.Domain;
+using CorporateHotel.Tests.Helpers;
 using JetBrains.Annotations;
 
 namespace CorporateHotel.Tests.HotelManagement.Domain;
@@ -9,7 +10,7 @@ public class HotelShould
     [Fact]
     public void IdentifyItselfByItsId()
     {
-        const string newHotelId = "88012242-b3f8-4a7c-8aed-52eb19209611";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(newHotelId);
         const string hotelName = "New Hotel";
         var hotel = new Hotel(hotelId, hotelName);

@@ -23,7 +23,7 @@ public class HotelServiceShould
     public void CallHotelRepositoryWhenAddingNewHotel()
     {
         const string newHotelName = "New Hotel";
-        const string newHotelId = "3598ca62-4516-4a75-9eb3-64a6f1c59381";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(newHotelId);
         var newHotel = new Hotel(hotelId, newHotelName);
         
@@ -35,7 +35,7 @@ public class HotelServiceShould
     [Fact]
     public void CallHotelRepositoryWhenFindingHotelById()
     {
-        const string newHotelId = "3598ca62-4516-4a75-9eb3-64a6f1c59381";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(newHotelId);
 
         _hotelService.FindHotelBy(hotelId);
@@ -47,7 +47,7 @@ public class HotelServiceShould
     public void ReturnFoundHotelFromRepository()
     {
         const string foundHotelName = "Found Hotel";
-        const string foundHotelId = "600cfb4f-6337-41fa-8118-3069ce010305";
+        var foundHotelId = HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(foundHotelId);
         var foundHotel = new Hotel(hotelId, foundHotelName);
         _hotelRepository.Setup(repository => repository.FindHotelBy(hotelId)).Returns(foundHotel);

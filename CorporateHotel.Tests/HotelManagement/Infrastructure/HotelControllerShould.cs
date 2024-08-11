@@ -25,7 +25,7 @@ public class HotelControllerShould
     [Fact]
     public void CallHotelServiceWhenAddingNewHotel()
     {
-        const string newHotelId = "61541251-bddd-4dfb-b3f5-70ad02707846";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         const string newHotelName = "New Hotel";
         var hotelId = new HotelId(newHotelId);
         
@@ -37,7 +37,7 @@ public class HotelControllerShould
     [Fact]
     public void ReturnOkWhenAddingNewHotelSuccessful()
     {
-        const string newHotelId = "3220567b-5f11-4f8f-b7ae-c7d730ae0b4e";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         const string newHotelName = "New Hotel";
         _hotelService.Setup(service => service.AddHotel(It.IsAny<HotelId>(), It.IsAny<string>())).Verifiable();
 
@@ -51,7 +51,7 @@ public class HotelControllerShould
     {
         //Arrange
         const string newHotelName = "New Hotel";
-        const string newHotelId = "e4b7255d-2d58-4ebe-bda7-a4759fe2c63b";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         _hotelService.Setup(service => 
             service.AddHotel(It.IsAny<HotelId>(), It.IsAny<string>())).Throws<Exception>();
         
@@ -67,7 +67,7 @@ public class HotelControllerShould
     [Fact]
     public void CallHotelServiceWhenFindingHotel()
     {
-        const string newHotelId = "3220567b-5f11-4f8f-b7ae-c7d730ae0b4e";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(newHotelId);
 
         _hotelController.FindHotelById(newHotelId);

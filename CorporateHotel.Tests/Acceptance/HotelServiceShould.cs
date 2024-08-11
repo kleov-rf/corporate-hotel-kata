@@ -1,6 +1,7 @@
 ﻿using CorporateHotel.HotelManagement.Application;
 using CorporateHotel.HotelManagement.Domain;
 using CorporateHotel.HotelManagement.Infrastructure;
+using CorporateHotel.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CorporateHotel.Tests.Acceptance;
@@ -11,7 +12,7 @@ public class HotelServiceShould
     public void AddNoExistingHotel()
     {
         // Arrange
-        const string newHotelId = "0a3d02e8-fba3-4dbb-ba36-3e46cea570f7";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         const string newHotelName = "Name";
         var hotelId = new HotelId(newHotelId);
         var newHotel = new Hotel(hotelId, newHotelName);
@@ -33,7 +34,7 @@ public class HotelServiceShould
     public void NotAddExistingHotelTwice()
     {
         //Arrange
-        const string newHotelId = "db8afe93-29c5-4711-b5ef-d2dcda53f60f";
+        var newHotelId = HotelIdHelper.GenerateNewId();
         const string newHotelName = "Hotel Name";
         var hotelId = new HotelId(newHotelId);
         var currentHotel = new Hotel(hotelId, newHotelName);
