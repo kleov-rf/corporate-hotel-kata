@@ -2,18 +2,18 @@
 
 public class Hotel
 {
-    private readonly HotelId _hotelId;
+    public readonly HotelId HotelId;
     private readonly string _hotelName;
 
     public Hotel(HotelId hotelId, string hotelName)
     {
-        _hotelId = hotelId;
+        HotelId = hotelId;
         _hotelName = hotelName;
     }
 
     protected bool Equals(Hotel other)
     {
-        return _hotelId.Equals(other._hotelId) && _hotelName == other._hotelName;
+        return HotelId.Equals(other.HotelId) && _hotelName == other._hotelName;
     }
 
     public override bool Equals(object? obj)
@@ -26,11 +26,11 @@ public class Hotel
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_hotelId, _hotelName);
+        return HashCode.Combine(HotelId, _hotelName);
     }
 
     public bool IsIdentifiedBy(HotelId hotelId)
     {
-        return _hotelId.Equals(hotelId);
+        return HotelId.Equals(hotelId);
     }
 }
