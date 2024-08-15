@@ -33,10 +33,16 @@ public class MongoDbHotelRepository : IHotelRepository
     public async Task<Hotel?> FindHotelBy(HotelId hotelId)
     {
         var hotels = _database.GetCollection<MongoHotel>("Hotels");
-        var filter = Builders<MongoHotel>.Filter.Eq(hotel => 
-            hotel.Id, hotelId.ToString());
+        var filter = Builders<MongoHotel>.Filter.Eq(hotel => hotel.Id, hotelId.ToString());
         var foundMongoHotels = await hotels.FindAsync(filter);
-        var mongoHotel = foundMongoHotels.Current?.FirstOrDefault();
-        return mongoHotel?.ToDomain();
+
+        while (await foundMongoHotels.MoveNextAsync())
+        {
+            var mongoHotel = foundMongoHotels.Current.FirstOrDefault();
+            if (mongoHotel != null)
+                return mongoHotel.ToDomain();
+        }
+
+        return null;
     }
 }

@@ -24,6 +24,10 @@ public class MongoDbHotelRepositoryShould
         var mongoDbHotelRepository = new MongoDbHotelRepository(mongoDatabase.Object);
         var hotelCollection = new Mock<IMongoCollection<MongoHotel>>();
         var asyncCursor = new Mock<IAsyncCursor<MongoHotel>>();
+
+        asyncCursor.SetupSequence(cursor => cursor.MoveNextAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true)
+            .ReturnsAsync(false);
         
         asyncCursor.Setup(cursor => 
                 cursor.Current)
