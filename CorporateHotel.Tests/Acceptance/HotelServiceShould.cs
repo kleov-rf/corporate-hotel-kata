@@ -1,13 +1,19 @@
 ﻿using CorporateHotel.HotelManagement.Application;
 using CorporateHotel.HotelManagement.Domain;
 using CorporateHotel.HotelManagement.Infrastructure;
+using CorporateHotel.Tests.Acceptance.Config;
 using CorporateHotel.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CorporateHotel.Tests.Acceptance;
 
-public class HotelServiceShould
+public class HotelServiceShould : MongoDbTestBase
 {
+    public HotelServiceShould(MongoDbFixture fixture) : base(fixture)
+    {
+        
+    }
+    
     [Fact]
     public async Task AddNoExistingHotel()
     {
@@ -17,8 +23,8 @@ public class HotelServiceShould
         var hotelId = new HotelId(newHotelId);
         var newHotel = new Hotel(hotelId, newHotelName);
         
-        var inMemoryHotelRepository = new InMemoryHotelRepository();
-        var hotelService = new HotelService(inMemoryHotelRepository);
+        var mongoDbHotelRepository = new MongoDbHotelRepository(_database);
+        var hotelService = new HotelService(mongoDbHotelRepository);
         var hotelController = new HotelController(hotelService);
         
         // Act
