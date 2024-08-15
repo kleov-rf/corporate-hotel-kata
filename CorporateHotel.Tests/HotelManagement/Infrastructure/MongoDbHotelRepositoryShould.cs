@@ -1,5 +1,6 @@
 ﻿using CorporateHotel.HotelManagement.Domain;
-using CorporateHotel.HotelManagement.Infrastructure;
+using CorporateHotel.HotelManagement.Infrastructure.Persistence;
+using CorporateHotel.HotelManagement.Infrastructure.Persistence.Models;
 using CorporateHotel.Tests.Helpers;
 using JetBrains.Annotations;
 using MongoDB.Driver;
@@ -18,11 +19,11 @@ public class MongoDbHotelRepositoryShould
         var hotelStringId = Helpers.HotelIdHelper.GenerateNewId();
         var hotelId = new HotelId(hotelStringId);
         var existingHotel = new Hotel(hotelId, hotelName);
-        var currentHotels = new List<Hotel> {existingHotel};
+        var currentHotels = new List<MongoHotel> {MongoHotel.FromDomain(existingHotel)};
         var mongoDatabase = new Mock<IMongoDatabase>();
         var mongoDbHotelRepository = new MongoDbHotelRepository(mongoDatabase.Object);
-        var hotelCollection = new Mock<IMongoCollection<Hotel>>();
-        var asyncCursor = new Mock<IAsyncCursor<Hotel>>();
+        var hotelCollection = new Mock<IMongoCollection<MongoHotel>>();
+        var asyncCursor = new Mock<IAsyncCursor<MongoHotel>>();
         
         asyncCursor.Setup(cursor => 
                 cursor.Current)
@@ -30,13 +31,13 @@ public class MongoDbHotelRepositoryShould
 
         hotelCollection.Setup(collection =>
                 collection.FindAsync(
-                    It.IsAny<FilterDefinition<Hotel>>(),
-                    It.IsAny<FindOptions<Hotel, Hotel>>(),
+                    It.IsAny<FilterDefinition<MongoHotel>>(),
+                    It.IsAny<FindOptions<MongoHotel, MongoHotel>>(),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(asyncCursor.Object);
         
         mongoDatabase.Setup(database => 
-            database.GetCollection<Hotel>("Hotels", null))
+            database.GetCollection<MongoHotel>("Hotels", null))
             .Returns(hotelCollection.Object);
         
         var foundHotel = await mongoDbHotelRepository.FindHotelBy(hotelId);
@@ -54,14 +55,15 @@ public class MongoDbHotelRepositoryShould
         
         var mongoDatabase = new Mock<IMongoDatabase>();
         var mongoDbHotelRepository = new MongoDbHotelRepository(mongoDatabase.Object);
-        var hotelCollection = new Mock<IMongoCollection<Hotel>>();
+        var hotelCollection = new Mock<IMongoCollection<MongoHotel>>();
         
         mongoDatabase.Setup(database => 
-                database.GetCollection<Hotel>("Hotels", null))
+                database.GetCollection<MongoHotel>("Hotels", null))
             .Returns(hotelCollection.Object);
         
         await mongoDbHotelRepository.AddHotel(newHotel);
         
-        hotelCollection.Verify(collection => collection.InsertOneAsync(newHotel, null, default));
+        hotelCollection.Verify(collection => 
+            collection.InsertOneAsync(MongoHotel.FromDomain(newHotel), null, default));
     }
 }

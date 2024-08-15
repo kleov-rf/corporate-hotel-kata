@@ -1,6 +1,7 @@
 ﻿using CorporateHotel.HotelManagement.Application;
 using CorporateHotel.HotelManagement.Domain;
 using CorporateHotel.HotelManagement.Infrastructure;
+using CorporateHotel.HotelManagement.Infrastructure.Persistence;
 using CorporateHotel.Tests.Acceptance.Config;
 using CorporateHotel.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
