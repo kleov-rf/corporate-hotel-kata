@@ -1,5 +1,6 @@
 ﻿using CorporateHotel.HotelManagement.Domain;
 using CorporateHotel.HotelManagement.Infrastructure;
+using CorporateHotel.Tests.Helpers;
 using JetBrains.Annotations;
 using MongoDB.Driver;
 using Moq;
@@ -41,5 +42,26 @@ public class MongoDbHotelRepositoryShould
         var foundHotel = await mongoDbHotelRepository.FindHotelBy(hotelId);
         
         Assert.Equal(existingHotel, foundHotel);
+    }
+
+    [Fact]
+    public async Task AddNewHotel()
+    {
+        const string newHotelName = "Hotel Name";
+        var newHotelId = HotelIdHelper.GenerateNewId();
+        var hotelId = new HotelId(newHotelId);
+        var newHotel = new Hotel(hotelId, newHotelName);
+        
+        var mongoDatabase = new Mock<IMongoDatabase>();
+        var mongoDbHotelRepository = new MongoDbHotelRepository(mongoDatabase.Object);
+        var hotelCollection = new Mock<IMongoCollection<Hotel>>();
+        
+        mongoDatabase.Setup(database => 
+                database.GetCollection<Hotel>("Hotels", null))
+            .Returns(hotelCollection.Object);
+        
+        await mongoDbHotelRepository.AddHotel(newHotel);
+        
+        hotelCollection.Verify(collection => collection.InsertOneAsync(newHotel, null, default));
     }
 }
