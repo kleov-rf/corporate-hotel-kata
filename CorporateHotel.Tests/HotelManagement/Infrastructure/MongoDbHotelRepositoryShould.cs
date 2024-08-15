@@ -26,7 +26,7 @@ public class MongoDbHotelRepositoryShould
         asyncCursor.Setup(cursor => 
                 cursor.Current)
             .Returns(currentHotels);
-        
+
         hotelCollection.Setup(collection =>
                 collection.FindAsync(
                     It.IsAny<FilterDefinition<Hotel>>(),
@@ -40,7 +40,6 @@ public class MongoDbHotelRepositoryShould
         
         var foundHotel = await mongoDbHotelRepository.FindHotelBy(hotelId);
         
-        Assert.Equal(foundHotel, existingHotel);
-        
+        Assert.Equal(existingHotel, foundHotel);
     }
 }
